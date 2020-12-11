@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 
 import nl.nealgeilen.smartpot.src.Http.Api;
+import nl.nealgeilen.smartpot.src.User.Authentication;
 
 public class FirstFragment extends Fragment {
 
@@ -42,30 +43,11 @@ public class FirstFragment extends Fragment {
             }
         });
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-                (Request.Method.GET, "https://yts.mx/api/v2/list_movies.json", null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray arr = response.getJSONObject("data").getJSONArray("movies");
-                            for (int i=0; i<arr.length(); i++){
-                                System.out.println(arr.getJSONObject(i).get("title"));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        System.out.println(error);
-                    }
-                });
-        Api.executeRequest(jsonObjectRequest);
+        try {
+            Authentication.validate("Neal", "5612");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 }
